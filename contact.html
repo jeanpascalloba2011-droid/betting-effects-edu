@@ -12,6 +12,10 @@
 </p>
 </head>
     <body>
+        <nav>
+            <a href="login.html">Login</a>
+            <a href="login.html"id="login-link">Login</a>
+        </nav>
     
     <header>
         <h1>Contact Us</h1>
@@ -41,5 +45,36 @@
     <footer>
         <p>&copy; 2026 Betting Effects Education. All rights reserved.</p>
     </footer>
+        <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB-YLjE9x0AGDeHUK-gnUqDvW51sYnLkWg",
+    authDomain: "betting-effects-edu.firebaseapp.com",
+    projectId: "betting-effects-edu",
+    storageBucket: "betting-effects-edu.firebasestorage.app",
+    messagingSenderId: "100619149213",
+    appId: "1:100619149213:web:1b9cda3df2cce2f262d974"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user) => {
+    const loginLink = document.getElementById('login-link');
+    if (loginLink) {
+      if (user) {
+        loginLink.innerText = 'Logout';
+        loginLink.href = '#';
+        loginLink.onclick = (e) => { e.preventDefault(); signOut(auth); };
+      } else {
+        loginLink.innerText = 'Login';
+        loginLink.href = 'login.html';
+        loginLink.onclick = null;
+      }
+    }
+  });
+</script>
 </body>
 </html>
