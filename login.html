@@ -24,7 +24,48 @@
     <p class="toggle" onclick="toggleMode()">Need an account? Sign up</p>
     <p id="message"></p>
   </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyB-YLjE9x0AGDeHUK-gnUqDvW51sYnLkWg",
+    authDomain: "betting-effects-edu.firebaseapp.com",
+    projectId: "betting-effects-edu",
+    storageBucket: "betting-effects-edu.firebasestorage.app",
+    messagingSenderId: "100619149213",
+    appId: "1:100619149213:web:1b9cda3df2cce2f262d974"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const loginForm = document.getElementById('login-form');
+  const signupForm = document.getElementById('signup-form');
+  const errorMsg = document.getElementById('error-msg');
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = 'index.html')
+        .catch((error) => errorMsg.innerText = error.message);
+    });
+  }
+
+  if (signupForm) {
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = 'index.html')
+        .catch((error) => errorMsg.innerText = error.message);
+    });
+  }
+</script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
