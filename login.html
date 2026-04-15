@@ -1,141 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Login - Betting Effects Edu</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Betting Effects</title>
   <style>
-    body { font-family: Arial; max-width: 400px; margin: 50px auto; padding: 20px; background: #f5f5f5; }
-    .box { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    h2 { text-align: center; color: #333; }
-    input { width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; }
-    button { width: 100%; padding: 12px; background: #0066cc; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-    button:hover { background: #0052a3; }
-    .toggle { text-align: center; margin-top: 15px; color: #0066cc; cursor: pointer; }
-    #message { margin-top: 15px; text-align: center; font-weight: bold; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1a1a2e;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+    }
+    .login-container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      width: 90%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .yeti {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    .yeti svg { width: 100%; height: 100%; }
+    .inputGroup {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .inputGroup label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #555;
+    }
+    .inputGroup input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      outline: none;
+      transition: border 0.3s;
+    }
+    .inputGroup input:focus { border-color: #4da6ff; }
+    .helper {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .show-pass {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+      color: #4da6ff;
+    }
+    #login-btn, #signup-btn {
+      width: 100%;
+      padding: 14px;
+      background: #4da6ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #login-btn:hover, #signup-btn:hover { background: #3d8bd9; }
+    .toggle-form {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+    .toggle-form span {
+      color: #4da6ff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #error-msg {
+      color: #ff4444;
+      margin-top: 15px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2 id="form-title">Login</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="handleAuth()">Login</button>
-    <p class="toggle" onclick="toggleMode()">Need an account? Sign up</p>
-    <p id="message"></p>
-  </div>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  <div class="login-container">
+    <div class="yeti">
+      <!-- Simple Yeti SVG -->
+      <svg id="yeti-svg" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="#cce7ff"/>
+        <circle cx="50" cy="55" r="35" fill="white"/>
+        <circle id="left-eye" cx="40" cy="50" r="4" fill="#333"/>
+        <circle id="right-eye" cx="60" cy="50" r="4" fill="#333"/>
+        <path id="mouth" d="M 45 65 Q 50 68 55 65" stroke="#333" stroke-width="2" fill="none"/>
+        <!-- Hands that cover eyes -->
+        <ellipse id="left-hand" cx="40" cy="50" rx="8" ry="6" fill="white" opacity="0"/>
+        <ellipse id="right-hand" cx="60" cy="50" rx="8" ry="6" fill="white" opacity="0"/>
+      </svg>
+    </div>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyB-YLjE9x0AGDeHUK-gnUqDvW51sYnLkWg",
-    authDomain: "betting-effects-edu.firebaseapp.com",
-    projectId: "betting-effects-edu",
-    storageBucket: "betting-effects-edu.firebasestorage.app",
-    messagingSenderId: "100619149213",
-    appId: "1:100619149213:web:1b9cda3df2cce2f262d974"
-  };
+    <!-- Login Form -->
+    <form id="login-form">
+      <div class="inputGroup">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" maxlength="254" required>
+        <p class="helper">email@domain.com</p>
+      </div>
+      <div class="inputGroup">
+        <label for="loginPassword">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="loginPassword" required>
+          <span class="show-pass" id="show-pass">Show</span>
+        </div>
+      </div>
+      <button type="submit" id="login-btn">Log in</button>
+      <p class="toggle-form">No account? <span id="show-signup">Sign up</span></p>
+    </form>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const loginForm = document.getElementById('login-form');
-  const signupForm = document.getElementById('signup-form');
-  const errorMsg = document.getElementById('error-msg');
-
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = 'index.html')
-        .catch((error) => errorMsg.innerText = error.message);
-    });
-  }
-
-  if (signupForm) {
-    signupForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = 'index.html')
-        .catch((error) => errorMsg.innerText = error.message);
-    });
-  }
-</script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-    const firebaseConfig = {
-  apiKey: "AIzaSyB-YljE9x0AGDeHUK-gnUqDvW51sYnLkWg",
-  authDomain: "betting-effects-edu.firebaseapp.com",
-  projectId: "betting-effects-edu",
-  storageBucket: "betting-effects-edu.firebasestorage.app",
-  messagingSenderId: "100619149213",
-  appId: "1:100619149213:web:1b9cda3df2cce2f262d974"
-};
-      
-      
-    
-
-      
-    
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    let isLogin = true;
-
-    window.toggleMode = () => {
-      isLogin = !isLogin;
-      document.getElementById('form-title').innerText = isLogin ? 'Login' : 'Sign Up';
-      document.querySelector('button').innerText = isLogin ? 'Login' : 'Sign Up';
-      document.querySelector('.toggle').innerText = isLogin ? 'Need an account? Sign up' : 'Have an account? Login';
-      document.getElementById('message').innerText = '';
-    }
-
-    window.handleAuth = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const message = document.getElementById('message');
-      
-      if (!email || !password) {
-        message.style.color = 'red';
-        message.innerText = 'Enter email and password';
-        return;
-      }
-      
-      if (isLogin) {
-        signInWithEmailAndPassword(auth, email, password)
-          .then(() => {
-            message.style.color = 'green';
-            message.innerText = 'Logged in! Redirecting...';
-          })
-          .catch((error) => {
-            message.style.color = 'red';
-            message.innerText = error.message;
-          });
-      } else {
-        createUserWithEmailAndPassword(auth, email, password)
-          .then(() => {
-            message.style.color = 'green';
-            message.innerText = 'Account created! Redirecting...';
-          })
-          .catch((error) => {
-            message.style.color = 'red';
-            message.innerText = error.message;
-          });
-      }
-    }
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        window.location.href = 'index.html';
-      }
-    });
-  </script>
-</body>
-</html>
+    <!-- Signup Form -->
+    <form id="signup-form" class="hidden">
+      <div class="inputGroup">
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail"
