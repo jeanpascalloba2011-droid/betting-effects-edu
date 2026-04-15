@@ -1,3 +1,17 @@
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+const loginLamp = document.getElementById('login-lamp');
+
+// Light up the lamp if user is logged in
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loginLamp.style.background = '#00ff88';
+    loginLamp.style.boxShadow = '0 0 15px #00ff88';
+  } else {
+    loginLamp.style.background = '#333';
+    loginLamp.style.boxShadow = 'none';
+  }
+});
 <!DOCTYPE html>
 <html lang="en">
 <head>
