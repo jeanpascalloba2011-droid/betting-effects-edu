@@ -3,7 +3,7 @@
 
 An educational website about the financial, mental health, and social effects of betting and gambling, with a focus on youth in Kenya.
 
-**Live site:** https://jeanpascalloba2011-droid.github.io/betting-effects-edu/
+**Live site:** https://betting-effects-edu/
 
 ### Pages
 - **Home** - Overview and quick facts
